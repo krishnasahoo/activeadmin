@@ -1,5 +1,7 @@
 ## Master (unreleased)
 
+## Fix for Rails 3 and Ruby 2 version conflict
+
 ## 0.5.1
 
 ### Enhancements
