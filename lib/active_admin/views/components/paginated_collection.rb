@@ -101,8 +101,16 @@ module ActiveAdmin
           end
         else
           offset = (collection.current_page - 1) * collection.limit_value
+          ## Fix for Rails 3 and Ruby 2 version conflict
+          if(!offset.present?)
+            offset = 0
+          end
           total = collection.total_count
-          I18n.t('active_admin.pagination.multiple', :model => entries_name, :from => offset + 1, :to => offset + collection_size, :total => total)
+          collection_size_new = collection_size
+          if(!collection_size_new.present?)
+            collection_size_new = 0
+          end
+          I18n.t('active_admin.pagination.multiple', :model => entries_name, :from => offset + 1, :to => offset + collection_size_new, :total => total)
         end
       end
 
