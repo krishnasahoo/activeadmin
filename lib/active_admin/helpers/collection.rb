@@ -7,16 +7,21 @@ module ActiveAdmin
       # the ORDER statement mentions a column defined in the SELECT statement.
       #
       # We remove the ORDER statement to work around this issue.
+
+      ## Fix for Rails 3 and Ruby 2 version conflict
       def collection_size(collection=collection)
-        size = collection.reorder("").count
+        size = collection.reorder("").count if collection.present?
         # when GROUP BY is used, AR returns Hash instead of Fixnum for .size
         size = size.size if size.kind_of?(Hash)
-
+        if(!size.present?)
+          size = 0
+        end
         size
       end
-
+      ## Fix for Rails 3 and Ruby 2 version conflict
       def collection_is_empty?(collection=collection)
-        collection_size(collection) == 0
+        return false if !collection.present?
+        collection_size(collection) == 0 
       end
     end
   end
